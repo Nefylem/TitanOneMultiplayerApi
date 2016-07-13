@@ -40,7 +40,7 @@ namespace TitanOneMultiplayerApi.GamepadInput
             {
                 for (var count = 0; count < ReturnOutput[index - 1].Length; count++)
                 {
-                    output[count] = Convert.ToByte(ReturnOutput[index - 1][count].Value);
+                    output[count] = ReturnOutput[index - 1][count].Value;
                 }
             }
         
@@ -82,6 +82,7 @@ namespace TitanOneMultiplayerApi.GamepadInput
                 rightY = -rightY;
             }
 
+            //You need an sbyte because you need -100 to +100. A byte can only be positive
             if (Math.Abs(leftX) > 0) { output[GamepadMap.LeftX] = (byte)Convert.ToSByte((int)(leftX)); }
             if (Math.Abs(leftY) > 0) { output[GamepadMap.LeftY] = (byte)Convert.ToSByte((int)(leftY)); }
             if (Math.Abs(rightX) > 0) { output[GamepadMap.RightX] = (byte)Convert.ToSByte((int)(rightX)); }
@@ -146,10 +147,12 @@ namespace TitanOneMultiplayerApi.GamepadInput
             Imports.XInputSetState(index, ref vibration);
         }
 
+        //Fun idea. Get a multiplayer splitscreen game together. Set a timer after 10 minutes to start randomly switching the control order every 30 seconds. 
         private static PlayerIndex FindPlayerIndex(int index)
         {
             switch (index)
             {
+                case 1: { return PlayerIndex.One; }
                 case 2: { return PlayerIndex.Two; }
                 case 3: { return PlayerIndex.Three; }
                 case 4: { return PlayerIndex.Four; }

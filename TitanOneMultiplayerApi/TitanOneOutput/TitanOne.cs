@@ -189,6 +189,9 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             if (Connect == null) return;            //If the API hasn't been loaded
 
             var deviceCount = Load();
+            //This actually takes time. API needs to query each device before returning. There should be a delay in here before continuing.
+            //Thread.Sleep(50);
+            //Application.DoEvents();       //<-- do not use this on threaded code
             Debug.Log($"Number of devices found: {deviceCount}");
             Connect(0x003);                         //TitanOne device moniker
 
@@ -250,6 +253,34 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             if (AppSettings.AllowRumble[player.Index]) Gamepad.SetState(player.Index, report.Rumble[0], report.Rumble[1]);
             return report.Input;
         }
+
+        /*
+         * Untested information - courtesy of J2KBR. Will experiment with this before putting it into code. Including as notes in case anyone wants to pick it up
+         * Block authenticating device rumble
+         * 
+         * it is gcapi_WriteEX(uint8_t *outpacket, uint8_t size)
+
+the outpacket has this format:
+CODE: SELECT ALL
+[0xFF,0x01 : 2 byte, Packet Signature]
+    [Update LED Command (0,1) : 1 byte]
+        [LED 1 Status : 1 byte]
+        [LED 2 Status : 1 byte]
+        [LED 3 Status : 1 byte]
+        [LED 4 Status : 1 byte]
+    [Reset LEDs Command (0,1) : 1 byte]
+    [Update Rumble Command (0,1) : 1 byte]
+        [Rumble 1 Value : 1 byte]
+        [Rumble 2 Value : 1 byte]
+        [Rumble 3 Value : 1 byte]
+        [Rumble 4 Value : 1 byte]
+    [Reset Rumble Command (0,1) : 1 byte]
+    [Block Rumble Command (0,1) : 1 byte]
+    [Turn Off Controller Command (0,1) : 1 byte]
+    [Button States : 36 bytes - same format as gcapi_Write]
+
+With gcapi_WriteEX you can "block" the rumble by setting the "Block Rumble Command" to 1. You just need send one time ... subsequent gcapi_WriteEX should have 0 on the command byte.
+         */
 
     }
 }
