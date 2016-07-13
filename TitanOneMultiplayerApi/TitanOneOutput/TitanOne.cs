@@ -173,6 +173,7 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             }
 
             Debug.Log("TitanOne API initialised ok");
+            FindDevices();
         }
 
         private static IntPtr LoadExternalFunction(IntPtr dll, string function)
@@ -219,7 +220,7 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             return serialNo;
         }
 
-        public static void Send(Gamepad.GamepadOutput player)
+        public static GcmapiStatus[] Send(Gamepad.GamepadOutput player)
         {
             if (_notConnected == null) _notConnected = new List<int>();
             if (_connected == null) _connected = new List<int>();
@@ -227,11 +228,11 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             //Do a nice little notifier to know if the device is found or not
             if (Connected(player.Index) != 1)
             {
-                if (_notConnected.IndexOf(player.Index) > -1) return;
+                if (_notConnected.IndexOf(player.Index) > -1) return null;
                 if (_connected.IndexOf(player.Index) > -1) _connected.Remove(player.Index);
                 _notConnected.Add(player.Index);
                 Debug.Log($"TitanOne device {player.Index} not connected");
-                return;
+                return null;
             }
 
             if (_connected.IndexOf(player.Index) == -1)
@@ -244,9 +245,10 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             Write(player.Index, player.Output);
 
             var report = new Report();
-            if (Read(player.Index, ref report) == IntPtr.Zero) return;
-            if (AppSettings.AllowPassthrough) Gamepad.ReturnOutput = report.Input;
+            if (Read(player.Index, ref report) == IntPtr.Zero) return null;
+            if (AppSettings.AllowPassthrough) Gamepad.ReturnOutput[player.Index] = report.Input;
             if (AppSettings.AllowRumble[player.Index]) Gamepad.SetState(player.Index, report.Rumble[0], report.Rumble[1]);
+            return report.Input;
         }
 
     }

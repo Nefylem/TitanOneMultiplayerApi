@@ -1,1 +1,9 @@
 c:\users\a.walker\documents\visual studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\bin\Debug\TitanOneMultiplayerApi.exe.config
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.pdb
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\bin\Debug\TitanOneMultiplayerApi.exe
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\bin\Debug\TitanOneMultiplayerApi.pdb
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.csprojResolveAssemblyReference.cache
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.Form1.resources
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.Properties.Resources.resources
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.csproj.GenerateResource.Cache
+C:\Users\a.walker\Documents\Visual Studio 2015\Projects\TitanOneMultiplayerApi\TitanOneMultiplayerApi\obj\Debug\TitanOneMultiplayerApi.exe

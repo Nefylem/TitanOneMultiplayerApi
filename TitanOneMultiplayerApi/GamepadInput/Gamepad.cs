@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TitanOneMultiplayerApi.Properties;
 using TitanOneMultiplayerApi.Configuration;
 using TitanOneMultiplayerApi.Remapping;
@@ -9,13 +10,23 @@ namespace TitanOneMultiplayerApi.GamepadInput
     internal static class Gamepad
     {
         private static int _xboxButtonCount;        
-        public static TitanOne.GcmapiStatus[] ReturnOutput;
+        public static List<TitanOne.GcmapiStatus[]> ReturnOutput;
 
         public class GamepadOutput
         {
             public int Index;
             public byte[] Output;
             public PlayerIndex PlayerIndex;
+        }
+
+        static Gamepad()
+        {
+            if (_xboxButtonCount == 0) _xboxButtonCount = Enum.GetNames(typeof(Xbox)).Length;
+
+            for (var count = 0; count < 5; count++)
+            {
+                ReturnOutput[count] = new TitanOne.GcmapiStatus[_xboxButtonCount];
+            }
         }
 
         public static GamepadOutput Check(int index)
@@ -27,9 +38,9 @@ namespace TitanOneMultiplayerApi.GamepadInput
             //Pass back in the information from the controller 
             if (ReturnOutput != null)
             {
-                for (var count = 0; count < ReturnOutput.Length; count++)
+                for (var count = 0; count < ReturnOutput[index - 1].Length; count++)
                 {
-                    output[count] = Convert.ToByte(ReturnOutput[count].Value);
+                    output[count] = Convert.ToByte(ReturnOutput[index - 1][count].Value);
                 }
             }
         

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TitanOneMultiplayerApi.GamepadInput;
+using TitanOneMultiplayerApi.TitanOneOutput;
 
 namespace TitanOneMultiplayerApi
 {
@@ -15,6 +17,25 @@ namespace TitanOneMultiplayerApi
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Debugging.Debug.SetHome(this);
+            TitanOne.Open();
+            timer1.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            for (var count = 1; count < 5; count++)
+            {
+                var input = Gamepad.Check(count);
+                var report = TitanOne.Send(input);
+
+                //Display gamepad input
+                //Display titanone report
+            }
         }
     }
 }
