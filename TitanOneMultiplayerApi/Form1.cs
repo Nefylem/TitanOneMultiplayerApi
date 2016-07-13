@@ -22,8 +22,11 @@ namespace TitanOneMultiplayerApi
         private void Form1_Load(object sender, EventArgs e)
         {
             Debugging.Debug.SetHome(this);
+            Gamepad.Setup();
             TitanOne.Open();
+            TitanOne.FindDevices();
             timer1.Enabled = true;
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -37,5 +40,6 @@ namespace TitanOneMultiplayerApi
                 //Display titanone report
             }
         }
+
     }
 }

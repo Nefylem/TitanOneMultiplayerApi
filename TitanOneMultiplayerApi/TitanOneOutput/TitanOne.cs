@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 using TitanOneMultiplayerApi.Configuration;
 using TitanOneMultiplayerApi.Debugging;
 using TitanOneMultiplayerApi.GamepadInput;
@@ -173,7 +175,6 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             }
 
             Debug.Log("TitanOne API initialised ok");
-            FindDevices();
         }
 
         private static IntPtr LoadExternalFunction(IntPtr dll, string function)
@@ -189,9 +190,6 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
             if (Connect == null) return;            //If the API hasn't been loaded
 
             var deviceCount = Load();
-            //This actually takes time. API needs to query each device before returning. There should be a delay in here before continuing.
-            //Thread.Sleep(50);
-            //Application.DoEvents();       //<-- do not use this on threaded code
             Debug.Log($"Number of devices found: {deviceCount}");
             Connect(0x003);                         //TitanOne device moniker
 
@@ -249,7 +247,7 @@ namespace TitanOneMultiplayerApi.TitanOneOutput
 
             var report = new Report();
             if (Read(player.Index, ref report) == IntPtr.Zero) return null;
-            if (AppSettings.AllowPassthrough) Gamepad.ReturnOutput[player.Index] = report.Input;
+            if (AppSettings.AllowPassthrough) Gamepad.ReturnOutput[player.Index - 1] = report.Input;
             if (AppSettings.AllowRumble[player.Index]) Gamepad.SetState(player.Index, report.Rumble[0], report.Rumble[1]);
             return report.Input;
         }

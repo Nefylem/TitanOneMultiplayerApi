@@ -19,13 +19,14 @@ namespace TitanOneMultiplayerApi.GamepadInput
             public PlayerIndex PlayerIndex;
         }
 
-        static Gamepad()
+        public static void Setup()
         {
+            ReturnOutput = new List<TitanOne.GcmapiStatus[]>();
+            //Set this up for the TitanOne to return to
             if (_xboxButtonCount == 0) _xboxButtonCount = Enum.GetNames(typeof(Xbox)).Length;
-
             for (var count = 0; count < 5; count++)
             {
-                ReturnOutput[count] = new TitanOne.GcmapiStatus[_xboxButtonCount];
+                ReturnOutput.Add(new TitanOne.GcmapiStatus[_xboxButtonCount]);
             }
         }
 
@@ -36,14 +37,13 @@ namespace TitanOneMultiplayerApi.GamepadInput
             var output = new byte[_xboxButtonCount];
 
             //Pass back in the information from the controller 
-            if (ReturnOutput != null)
-            {
+            if (ReturnOutput[index - 1] != null)
+            { 
                 for (var count = 0; count < ReturnOutput[index - 1].Length; count++)
                 {
                     output[count] = ReturnOutput[index - 1][count].Value;
                 }
             }
-        
 
             var player = FindPlayerIndex(index);                            
             var controls = GamePad.GetState(player);
